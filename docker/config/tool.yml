@@ -1,32 +1,11 @@
-tool:
-  name: my_tool
-  version: 1.0.0
-  description: "Описание инструмента"
-  enabled: true
-  settings:
-    port: 8080
-    api_key: "your-api-key-here"
-    host: "localhost"
-  dependencies:
-    - name: "dependency1"
-      version: "2.0.0"
-    - name: "dependency2"
-      version: "1.5.0"
-  environment:
-    variables:
-      TOOL_ENV: "production"
-      TOOL_DEBUG: "false"
-  logging:
-    level: "info"
-    file: "/app/logs/tool.log"
-  metrics:
-    enabled: true
-    endpoint: "/metrics"
-  datasource:
-    name: "tool-datasource"
-    type: "prometheus"
-    url: "http://prometheus:9090"
-  monitoring:
-    enabled: true
-    endpoint: "/health"
-    interval: "30s"
+core:
+  executor: LocalExecutor
+  load_examples: False
+webserver:
+  default_user: admin
+  default_user_password: admin
+  web_server_port: 8080
+logging:
+  remote_logging: False
+database:
+  sql_alchemy_conn: postgresql+psycopg2://airflow:airflow@postgres/airflow

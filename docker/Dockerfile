@@ -1,15 +1,14 @@
-FROM python:3.9-slim
+FROM apache/airflow:2.7.3
 
-WORKDIR /app
+USER root
 
-COPY pyproject.toml pdm.lock /app/
+# Устанавливаем необходимые Python-библиотеки (если нужны)
+RUN pip install --no-cache-dir requests pandas
 
-RUN pip install pdm && pdm install --no-lock
+# Создаем директорию для DAG'ов
+RUN mkdir -p /opt/airflow/dags
 
-COPY . /app/
+# Копируем DAG'и в контейнер (если у вас есть)
+COPY dags/ /opt/airflow/dags/
 
-COPY docker-entrypoint.sh /usr/local/bin/
-
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-ENTRYPOINT ["docker-entrypoint.sh"]
+USER airflow

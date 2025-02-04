@@ -1,38 +1,58 @@
 version: '3.8'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: my_app
+  postgres:
+    image: postgres:15
+    container_name: airflow_postgres
+    restart: always
     environment:
-      - ENVIRONMENT=production
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
     ports:
-      - "8000:8000"
+      - "5433:5433"
     volumes:
-      - .:/app
-    networks:
-      - app-network
+      - postgres_data:/var/lib/postgresql/data
+
+  airflow-init:
+    image: apache/airflow:2.7.3
+    container_name: airflow_init
     depends_on:
-      - grafana
-
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
+      - postgres
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    ports:
-      - "3000:3000"
-    volumes:
-      - grafana-data:/var/lib/grafana
-    networks:
-      - app-network
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+    entrypoint: >
+      sh -c "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com"
 
-networks:
-  app-network:
-    driver: bridge
+  airflow-webserver:
+    image: apache/airflow:2.7.3
+    container_name: airflow_webserver
+    restart: always
+    depends_on:
+      - postgres
+      - airflow-init
+    ports:
+      - "8080:8080"
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__WEBSERVER__DEFAULT_USER: admin
+      AIRFLOW__WEBSERVER__DEFAULT_USER_PASSWORD: admin
+    command: ["airflow", "webserver"]
+
+  airflow-scheduler:
+    image: apache/airflow:2.7.3
+    container_name: airflow_scheduler
+    restart: always
+    depends_on:
+      - postgres
+      - airflow-webserver
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    command: ["airflow", "scheduler"]
 
 volumes:
-  grafana-data:
-    driver: local
+  postgres_data:
