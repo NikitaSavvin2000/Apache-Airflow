@@ -1,0 +1,32 @@
+tool:
+  name: my_tool
+  version: 1.0.0
+  description: "Описание инструмента"
+  enabled: true
+  settings:
+    port: 8080
+    api_key: "your-api-key-here"
+    host: "localhost"
+  dependencies:
+    - name: "dependency1"
+      version: "2.0.0"
+    - name: "dependency2"
+      version: "1.5.0"
+  environment:
+    variables:
+      TOOL_ENV: "production"
+      TOOL_DEBUG: "false"
+  logging:
+    level: "info"
+    file: "/app/logs/tool.log"
+  metrics:
+    enabled: true
+    endpoint: "/metrics"
+  datasource:
+    name: "tool-datasource"
+    type: "prometheus"
+    url: "http://prometheus:9090"
+  monitoring:
+    enabled: true
+    endpoint: "/health"
+    interval: "30s"

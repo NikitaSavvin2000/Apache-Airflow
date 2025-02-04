@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my_app
+    environment:
+      - ENVIRONMENT=production
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    networks:
+      - app-network
+    depends_on:
+      - grafana
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  grafana-data:
+    driver: local
