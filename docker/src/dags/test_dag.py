@@ -10,7 +10,6 @@ counter = 0
 
 
 def print_hello():
-    """ Первая задача: печатает сообщение о запуске DAG-а """
     global counter
     counter += 1
     messages = [
@@ -27,7 +26,6 @@ def print_hello():
 
 
 def print_goodbye():
-    """ Вторая задача: печатает сообщение о завершении DAG-а """
     log.info("DAG успешно завершен! Всё прошло отлично.")
 
 default_args = {
