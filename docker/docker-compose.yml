@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15
@@ -38,9 +36,13 @@ services:
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__DAGS_FOLDER: /opt/airflow/dags
       AIRFLOW__WEBSERVER__DEFAULT_USER: admin
       AIRFLOW__WEBSERVER__DEFAULT_USER_PASSWORD: admin
     command: ["airflow", "webserver"]
+    volumes:
+      - ./src/dags:/opt/airflow/dags
+      - airflow_logs:/opt/airflow/logs  # Добавляем том для логов
 
   airflow-scheduler:
     image: apache/airflow:2.7.3
@@ -52,7 +54,12 @@ services:
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__DAGS_FOLDER: /opt/airflow/dags
     command: ["airflow", "scheduler"]
+    volumes:
+      - ./src/dags:/opt/airflow/dags
+      - airflow_logs:/opt/airflow/logs
 
 volumes:
   postgres_data:
+  airflow_logs:
