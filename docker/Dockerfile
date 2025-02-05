@@ -9,6 +9,6 @@ RUN pip install --no-cache-dir requests pandas
 RUN mkdir -p /opt/airflow/dags
 
 # Копируем DAG'и в контейнер (если у вас есть)
-COPY dags/ /opt/airflow/dags/
+COPY src/dags/ /opt/airflow/dags/
 
 USER airflow
