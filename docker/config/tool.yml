@@ -4,7 +4,7 @@ core:
 webserver:
   default_user: admin
   default_user_password: admin
-  web_server_port: 8080
+  web_server_port: 8083
 logging:
   remote_logging: False
 database:
