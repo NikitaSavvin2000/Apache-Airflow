@@ -75,6 +75,11 @@
    ```bash
    sudo docker-compose up -d
    ```
+   Или
+      ```bash
+   sudo docker build -t airflow .
+   sudo docker run -d -p 8083:8080 <IMAGE ID>
+   ```
 
 4. ### Перейдите в веб-интерфейс Airflow:
    Откройте `http://your-server-ip:8080` в браузере.
