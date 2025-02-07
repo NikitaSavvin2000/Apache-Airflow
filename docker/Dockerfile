@@ -9,4 +9,6 @@ RUN mkdir -p /opt/airflow/dags
 # Копируем DAG'и в контейнер (если у вас есть)
 COPY src/dags/ /opt/airflow/dags/
 
+EXPOSE 8502
+
 USER airflow
