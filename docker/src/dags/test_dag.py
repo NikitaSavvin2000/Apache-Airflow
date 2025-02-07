@@ -53,6 +53,7 @@ def print_hello():
 def print_goodbye():
     log.info("DAG успешно завершен! Всё прошло отлично.")
 
+
 default_args = {
     'owner': 'airflow',
     'retries': 1,
