@@ -3,13 +3,21 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 import random
 import logging
+from airflow.decorators import task
+
 
 log = logging.getLogger(__name__)
 
 counter = 0
 
 
+@task.virtualenv(
+    task_id="virtualenv_python", requirements=["minio>=7.2.15"], system_site_packages=False
+)
 def print_hello():
+    """
+    @task.virtualenv как пример создания виртуального окружения для функции, как пример взять minio>=7.2.15
+    """
     global counter
     counter += 1
     messages = [
