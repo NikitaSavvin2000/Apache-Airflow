@@ -4,11 +4,28 @@ from airflow.operators.python import PythonOperator
 import random
 import logging
 from airflow.decorators import task
+from airflow.models import Variable
+from airflow.providers.ftp.hooks.ftp import FTPHook
 
 
 log = logging.getLogger(__name__)
 
 counter = 0
+
+"""
+Пример вызова переменной из airflow
+Переменная с ключем SOME_KEY задается в http://localhost:8080/home -> Admin -> Variables
+"""
+some_key = Variable.get("SOME_KEY", default_var='test')
+
+
+"""
+Пример создания хука из airflow (Хук - подключение через аирфлоу к чему-либо) в данном примере FTPHook бывают другие виды
+Соеденение с ключем test_ftp_conn_id задается в http://localhost:8080/home -> Admin -> Connections
+"""
+ftp_conn_id = "test_ftp_conn_id"
+ftp_hook = FTPHook(ftp_conn_id)
+ftp_hook.secure = False
 
 
 @task.virtualenv(
