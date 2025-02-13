@@ -67,10 +67,6 @@ class Read:
         today_date = datetime.today()
 
         while today_date > last_date:
-            logging.info('='*50)
-            logging.info(f'today_date {today_date} | last_date {last_date}')
-            logging.info('='*50)
-
             df_sensor = self.read_data_api(sensor_id, last_date, name_sensor)
             if df_sensor.empty:
                 last_date += relativedelta(months=1)
@@ -79,8 +75,8 @@ class Read:
             df_general_period = pd.concat([df_general_period, df_sensor], ignore_index=True)
             last_date += relativedelta(months=1)
 
-        last_date = today_date - timedelta(days=28)
-        df_sensor = self.read_data_api(sensor_id, last_date, name_sensor)
+        start_of_month = today_date.replace(day=1)
+        df_sensor = self.read_data_api(sensor_id, start_of_month, name_sensor)
         df_sensor = df_sensor.iloc[:-1]
         df_general_period = pd.concat([df_general_period, df_sensor], ignore_index=True)
 
