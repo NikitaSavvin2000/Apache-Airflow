@@ -13,18 +13,18 @@ from airflow.operators.python import PythonOperator
 
 start_write_data_date = '2024-01-16'
 
-BATCH_SIZE = Variable.get("BATCH_SIZE", default_var=100)
+BATCH_SIZE = int(Variable.get("BATCH_SIZE", default_var=100))
 
 dbname = Variable.get("dbname", default_var="pass")
 user = Variable.get("user", default_var="pass")
 password = Variable.get("password", default_var="pass")
 host = Variable.get("host", default_var="pass")
-port = Variable.get("port", default_var="pass")
+port = int(Variable.get("port", default_var="pass"))
 
 token = Variable.get("token", default_var="pass")
 static_link = Variable.get("static_link", default_var="pass")
 
-run_interval = Variable.get("run_interval", default_var=5)
+run_interval = int(Variable.get("run_interval", default_var=5))
 
 DB_PARAMS = {
     "dbname": dbname,
