@@ -46,6 +46,7 @@ services:
 
     volumes:
       - ./src/dags:/opt/airflow/dags
+      - ./src/models:/opt/airflow/models
       - airflow_logs:/opt/airflow/logs
     mem_limit: 4g
 
@@ -63,6 +64,7 @@ services:
     command: ["airflow", "scheduler"]
     volumes:
       - ./src/dags:/opt/airflow/dags
+      - ./src/models:/opt/airflow/models
       - airflow_logs:/opt/airflow/logs
     mem_limit: 4g
 

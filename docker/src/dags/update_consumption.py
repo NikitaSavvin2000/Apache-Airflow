@@ -19,7 +19,7 @@ dbname = Variable.get("dbname", default_var="pass")
 user = Variable.get("user", default_var="pass")
 password = Variable.get("password", default_var="pass")
 host = Variable.get("host", default_var="pass")
-port = int(Variable.get("port", default_var="pass"))
+port = int(Variable.get("port", default_var=9200))
 
 token = Variable.get("token", default_var="pass")
 static_link = Variable.get("static_link", default_var="pass")
