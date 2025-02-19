@@ -26,7 +26,7 @@ def call_update_model_api():
 with DAG(
         dag_id="update_model_api",
         start_date=datetime(2025, 2, 18),
-        schedule_interval=timedelta(minutes=25),
+        schedule_interval=timedelta(minutes=60),
         catchup=False,
 ) as dag:
     update_model_api_task = PythonOperator(

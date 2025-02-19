@@ -15,11 +15,8 @@ RUN pip install tensorflow
 RUN pip install h5py
 
 RUN mkdir -p /opt/airflow/dags
-RUN mkdir -p /opt/airflow/models
 
 COPY src/dags/ /opt/airflow/dags/
-COPY src/models/ /opt/airflow/models/
-
 
 USER airflow
 
