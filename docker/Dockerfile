@@ -11,9 +11,6 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     libffi-dev
 
-RUN pip install tensorflow
-RUN pip install h5py
-
 RUN mkdir -p /opt/airflow/dags
 
 COPY src/dags/ /opt/airflow/dags/
