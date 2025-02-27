@@ -11,7 +11,7 @@ base_url = "http://77.37.136.11:7080/alert_manager/v1/notification"
 def send_notification():
     url = base_url
     try:
-        response = requests.post(url)
+        response = requests.get(url)
         response.raise_for_status()
         massage = response.json()
         logging.info(f'>>> SUCCESS {massage}')
